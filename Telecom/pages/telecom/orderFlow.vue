@@ -168,6 +168,15 @@
 			},
 			order() {
 				let _this = this
+				if(!_this.$store.state.isLogin) {
+					uni.showToast({
+						title: '没有登录，无法使用小程序的功能！',
+						duration: 2000,
+						icon: 'none'
+					})
+					return false 
+				}
+				
 				if(_this.validate()) {
 					uni.showLoading({
 						title: "提交中..."
@@ -178,7 +187,8 @@
 						idZData: _this.formData.idZData,
 						idFData: _this.formData.idFData,
 						faceData: _this.formData.faceData,
-						orgId: _this.$store.state.orgId
+						orgId: _this.$store.state.orgId,
+						appId: _this.$store.state.appName
 					}).then(result => {
 						uni.showToast({
 							title: result.message,

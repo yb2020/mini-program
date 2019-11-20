@@ -1,26 +1,48 @@
 <script>
 	import Vue from 'vue'
 	import {mapMutations} from 'vuex';
+	import ACLApi from '@/common/ACL'
+	import Authorization from "@/common/Authorization"
 	
 	export default {
 		methods: {
 			...mapMutations(['login','init'])
 		},
-		onLaunch: function() {
+		onLaunch: function(options) {
 			let user = uni.getStorageSync("userInfo") 
+			let scene = options.query.scene
+			console.log(scene)
 			
-			if(!user) {
+			if (scene && !user) {
+				ACLApi.qr.app.getByIdName(scene).then(result => {
+					var paramters = result.paramters ;
+					this.init({
+						orgId: ACLApi.qr.app.utils.get(paramters, "orgId") || "b00618ec07c140849bee17948b0e4be3",
+						appName: ACLApi.qr.app.utils.get(paramters, "appId") || "s_telecom",
+						agent: ACLApi.qr.app.utils.get(paramters, "agent") || ""
+					})
+					Authorization.wx.login()
+				})
+			}else {
 				this.init({
 					orgId: "b00618ec07c140849bee17948b0e4be3",
 					appName: "s_telecom"
 				})
-			}else {
-				console.log("初始化数据")
-				uni.getStorage({
-					key: 'userInfo',
-					success: (res) => this.login(res.data)
-				})
+				Authorization.wx.login()
 			}
+			
+			// if(!user) {
+			// 	this.init({
+			// 		orgId: "b00618ec07c140849bee17948b0e4be3",
+			// 		appName: "s_telecom"
+			// 	})
+			// }else {
+			// 	console.log("初始化数据")
+			// 	uni.getStorage({
+			// 		key: 'userInfo',
+			// 		success: (res) => this.login(res.data)
+			// 	})
+			// }
 			
 			uni.getSystemInfo({
 				success: function(e) {

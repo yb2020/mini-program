@@ -13,6 +13,9 @@
 			<button class="cu-btn bg-blue margin-tb-sm lg" open-type="getUserInfo" withCredentials="true" lang="zh_CN" @getuserinfo="login">
 				授权登录
 			</button>
+			<button class="cu-btn bg-normal margin-tb-sm lg" withCredentials="true" lang="zh_CN" @tap="cancel">
+				取消登录
+			</button>
 		</view>
 	</view>
 </template>
@@ -26,6 +29,14 @@
 	　　　　　//登录
 			login() {
 				Authorization.wx.login()
+			},
+			cancel() {
+				let _this = this
+				uni.showToast({
+					title: "没有登录，将无法使用小程序的功能！",
+					duration: 3000,
+					icon: 'none'
+				})
 			}
 			
 		}

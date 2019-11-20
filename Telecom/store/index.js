@@ -11,7 +11,10 @@ const store = new Vuex.Store({
 		nickName: '',
         username: '',
 		orgId: '',
-		appName: ''
+		appName: '',
+		isAgent: false,
+		agent: '',
+		level: -1
     },
 	actions: {
 		login(params) {
@@ -22,25 +25,30 @@ const store = new Vuex.Store({
 		init(state, initParams) {
 			state.orgId = initParams.orgId
 			state.appName = initParams.appName
+			state.agent = initParams.agent
 			uni.setStorage({
 				key: "systemParams",
 				data: initParams
 			})
 		},
         login(state, user) {
-			
 			state.token = user.token
 			state.avatarUrl = user.avatarUrl
 			state.username = user.username
 			state.nickName = user.nickName
+			state.agent = user.agent
+			state.isAgent = user.isAgent
 			state.isLogin = true
+			state.level = user.level
 			
-			if(!user.isLogin) {
+			let storeUser = uni.getStorageSync("userInfo") 
+			if(storeUser === null) {
 				uni.setStorage({
 					key: "userInfo",
 					data: user
 				})
 			}
+			
         }, 
 		refreshToken(state, token) {
 			state.token = token

@@ -42,13 +42,17 @@ export default {
 										encryptedData: infoRes.encryptedData ,
 										iv: infoRes.iv,
 										orgId: store.state.orgId, 
-										appName: store.state.appName
+										appName: store.state.appName,
+										agent: store.state.agent
 									}).then(result2 => {
 										store.commit("login", {
 											nickName: nickName,
 											avatarUrl: avatarUrl,
 											token: result2.token,
 											username: result2.username,
+											isAgent: result2.isAgent,
+											agent: result2.agent,
+											level: result2.level,
 											isLogin: true
 										})
 										uni.hideLoading()
@@ -60,7 +64,12 @@ export default {
 									})
 									
 								},
-								fail(res) {}
+								fail(res) {
+									uni.hideLoading()
+									uni.reLaunch({
+										url: '/pages/telecom/Authorization'
+									})
+								}
 							});
 						}else {
 							uni.showModal({

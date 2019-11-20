@@ -18,6 +18,10 @@
 		    "style" : {}
 		},
 		{
+		    "path" : "pages/telecom/share",
+		    "style" : {}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {}
 		},

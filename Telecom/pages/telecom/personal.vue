@@ -17,14 +17,14 @@
 						</view>
 					</view>
 					<view class="action">
-						<!--view class="cu-tag round bg-red sm">会员</view-->
+						<view v-if="isAgent" class="cu-tag round bg-red sm">会员</view>
 					</view>
 				</view>
 			</view>
 			
 			
 			<view class="cu-list grid" :class="['col-' + gridCol,gridBorder?'':'no-border']">
-				<view class="cu-item" v-for="(item,index) in cuIconList" :key="index" v-if="index<gridCol*2">
+				<view class="cu-item" @tap="toChild(item)" v-for="(item,index) in cuIconList" :key="index" v-if="index<gridCol*2">
 					<view :class="['cuIcon-' + item.cuIcon,'text-' + item.color]">
 						<view class="cu-tag badge" v-if="item.badge!=0">
 							<block v-if="item.badge!=1">{{item.badge>99?'99+':item.badge}}</block>
@@ -64,22 +64,28 @@
 		data() {
 			return {
 				cuIconList: [{
-					cuIcon: 'medal',
-					color: 'orange',
-					badge: 0,
-					name: '申请会员'
-				}, {
+					id: 'share',
 					cuIcon: 'share',
 					color: 'green',
 					badge: 1,
 					name: '我要分享'
-				}],
+				},
+				{
+					id: 'recommander',
+					cuIcon: 'medal',
+					color: 'orange',
+					badge: 0,
+					name: '我的推荐'
+				} 
+				],
 				gridCol: 2,
 				gridBorder: true,
 				menuArrow: true,
 				avatorUrl: "",
 				nickName: "",
-				username: ""
+				username: "",
+				isAgent: false,
+				agent: ""
 			};
 		},
 		onLoad() {
@@ -93,10 +99,28 @@
 			if(!_this.username) {
 				_this.username = this.$store.state.username
 			}
+			if(!_this.agent) {
+				_this.agent = this.$store.state.agent
+			}
+			if(!_this.isAgent) {
+				_this.isAgent = this.$store.state.isAgent
+			}
+			
 		},
 		methods: {
 			toOrder() {
 				this.$emit("changeNav", "index")
+			},
+			toChild(item) {
+				switch(item.id) {
+					case 'share' :
+						uni.navigateTo({
+							url: "./share"
+						})
+						break ;
+					case 'recommander' :
+						break;
+				}
 			}
 		}
 	}

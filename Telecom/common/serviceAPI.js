@@ -1,7 +1,9 @@
 import serviceAPI from './request'
 import store from '@/store'
+import Authorization from "@/common/Authorization"
 
-var baseUrl = 'http://192.168.1.103:9999'
+var baseUrl = 'https://api.telecom.fengyoukeji.cn'
+//var baseUrl = 'http://192.168.0.103:9999'
 // #ifdef H5
 baseUrl = ''
 // #endif
@@ -24,11 +26,10 @@ serviceAPI.interceptor.request = (config => {
 // 全局的业务拦截
 serviceAPI.interceptor.response = ((res, config) => {
 	if(res.code === 50008 || res.code === 50012 || res.code === 50014) {
-		// token失效，需要重新登录
-		// uni.navigateTo({
-		//     url: '/pages/loign/login'
-		// })
-		return Promise.reject(res.message || 'error')
+		//token失效，需要重新登录
+		Authorization.wx.login()
+		res.success = true
+		return res
 	}else if(res.status != 1){
 		return Promise.reject(res.message || 'error')
 	}else {

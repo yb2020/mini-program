@@ -30,7 +30,10 @@
 				UnSelectClass: 'action text-black'
 			}
 		},
-		onLoad() {
+		onLoad(options) {
+			// setTimeout(()=>{
+			// 	console.log(this.$store.state.orgId)
+			// }, 100)
 		},
 		methods: {
 			NavChange: function(e) {
