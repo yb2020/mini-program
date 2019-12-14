@@ -21,14 +21,14 @@
 						appName: ACLApi.qr.app.utils.get(paramters, "appId") || "s_telecom",
 						agent: ACLApi.qr.app.utils.get(paramters, "agent") || ""
 					})
-					Authorization.wx.login()
+					//Authorization.wx.login()
 				})
 			}else {
 				this.init({
 					orgId: "b00618ec07c140849bee17948b0e4be3",
 					appName: "s_telecom"
 				})
-				Authorization.wx.login()
+				//Authorization.wx.login()
 			}
 			
 			// if(!user) {

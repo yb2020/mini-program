@@ -8,7 +8,6 @@
 			</view>
 			<view class="action add-action text-black" @tap="toChild" data-url="./orderFlow">
 				<button class="cu-btn cuIcon-add bg-gradual-blue shadow"></button>
-				免费开卡
 			</view>
 			<view :class="UnSelectClass" @tap="NavChange" data-cur="personal">
 				<view class="cuIcon-my">
@@ -50,7 +49,7 @@
 				this.SelectedClass = this.UnSelectClass
 				this.UnSelectClass = tmp
 				this.PageCur = nowPage
-				if("index" == nowPage) {
+				if("index" == nowPage && this.$store.state.isLogin) {
 					setTimeout(()=>this.$refs.indexPage.getMyOrderList(), 100)
 				}
 			},

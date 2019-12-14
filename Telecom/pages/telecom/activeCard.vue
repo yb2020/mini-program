@@ -95,6 +95,7 @@
 				formData: {
 					orderNumber: '',
 					validCode: '',
+					randomKey: '',
 					valiCodeArray: [],
 					videoUrl: '',
 					videoData: ''
@@ -127,7 +128,10 @@
 						})
 						return
 					}
-					_this.formData.valiCodeArray = result.data.code.split("") ;
+					_this.formData.validCode = result.data.readCode
+					_this.formData.valiCodeArray = _this.formData.validCode.split("") ;
+					_this.formData.randomKey = result.data.randomKey
+					
 				}).catch(e => {
 					console.error(e)
 				})
@@ -163,7 +167,9 @@
 					})
 					telecomApi.person.active({
 						filePath: _this.formData.videoUrl,
-						orderNumber: _this.formData.orderNumber
+						orderNumber: _this.formData.orderNumber,
+						validCode: _this.formData.validCode,
+						randomKey: _this.formData.randomKey
 					}).then(result => {
 						uni.showToast({
 							title: result.message,
@@ -177,6 +183,8 @@
 						})
 						
 					}).catch(e => {
+						_this.DelVideo()
+						_this.getCode(true)
 						console.error(e)
 					})
 				}

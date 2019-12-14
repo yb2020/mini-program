@@ -5,9 +5,10 @@
 		</cu-custom>
 		<scroll-view :scroll-y="modalName==null" bgColor="bg-blue" class="page" :class="modalName!=null?'show':''">
 			<view>
-				<canvas style="width:100%;" :style="{ height: height + 'px' }" canvas-id="canvas" ></canvas>
+				
 			</view>
 			<view class=" padding flex flex-direction">
+				<canvas style="width:100%;" :style="{ height: height + 'px' }" canvas-id="canvas" ></canvas>
 				<button class="cu-btn bg-blue margin-tb-sm lg" withCredentials="true" lang="zh_CN" @tap="saveShare">
 					保存
 				</button>
@@ -38,6 +39,14 @@
 		},
 		onLoad() {
 			let _this = this
+			if(!_this.$store.state.isLogin) {
+				uni.showToast({
+					title: '没有登录，无法使用小程序的功能！',
+					duration: 2000,
+					icon: 'none'
+				})
+				return false 
+			}
 			if(!_this.avatorUrl) {
 				_this.avatorUrl = 'background-image:url("' + this.$store.state.avatarUrl + '");'
 			}
@@ -80,6 +89,7 @@
 						let width = e.windowWidth;
 						let height= e.screenHeight - 200 ;
 						that.height = height;
+						let paddingWidth = 40 ;
 						let topheight = 180;//图片距离上边距离
 						const ctx = uni.createCanvasContext('canvas');
 						// 底色
@@ -98,7 +108,7 @@
 								// 	avatarurl_width / 2 + avatarurl_x, avatarurl_heigth / 2 + avatarurl_y, avatarurl_width / 2, 0, Math.PI * 2, false
 								// ); 
 								// ctx.clip()  //裁剪
-								ctx.drawImage(res.path, (width - avatarSize) / 2, 30 , avatarSize, avatarSize);
+								ctx.drawImage(res.path, (width - avatarSize - paddingWidth) / 2, 30 , avatarSize, avatarSize);
 								
 								//绘制序列从上到下， 通过距离上边高度来排列显示
 								// 文字内容
@@ -106,15 +116,15 @@
 								
 								ctx.setFillStyle('#333333'); // 文字颜色：黑色
 								ctx.setFontSize(14); // 文字字号：22px
-								ctx.fillText(that.$store.state.nickName, width / 2, topheight - 30);
+								ctx.fillText(that.$store.state.nickName, (width - paddingWidth) / 2, topheight - 30);
 								
 								ctx.setFillStyle('#0081FF'); 
 								ctx.setFontSize(20); 
-								ctx.fillText('一起来做任务吧！', width / 2, topheight);
+								ctx.fillText('跟我一起做任务吧！', (width - paddingWidth) / 2, topheight);
 								// 小程序码
 								const qrImgSize = 170;
 								base64src(that.qrCode).then(filePath =>{
-									ctx.drawImage(filePath, (width - qrImgSize) / 2, topheight + 20 , qrImgSize, qrImgSize);
+									ctx.drawImage(filePath, (width - qrImgSize - paddingWidth) / 2, topheight + 20 , qrImgSize, qrImgSize);
 									ctx.stroke();
 									ctx.draw();
 								})

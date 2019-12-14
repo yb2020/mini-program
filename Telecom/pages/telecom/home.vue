@@ -90,6 +90,7 @@
 <script>
 	import telecomApi from "./api/telecom"
 	import { formatTime, parseTime } from '@/utils'
+	import Authorization from "@/common/Authorization"
 
 	export default {
 		data() {
@@ -121,25 +122,25 @@
 			// 初始化towerSwiper 传已有的数组名即可
 			_this.TowerSwiper('swiperList');
 			
-			// if(!_this.$store.state.isLogin) {
-			// 	uni.showModal({
-			// 		title: "登录提示",
-			// 		content: "应用需要登录才能使用，请先登录！",
-			// 		success(result) {
-			// 			if(!result.cancel)  {
-			// 				_this.login()
-			// 			}else {
-			// 				uni.showToast({
-			// 				    title: '没有登录，将无法使用小程序的功能！',
-			// 				    duration: 2000,
-			// 					icon: 'none'
-			// 				})
-			// 			}
-			// 		},
-			// 		fail() {
-			// 		}
-			// 	})
-			// }
+			if(!_this.$store.state.isLogin) {
+				uni.showModal({
+					title: "登录提示",
+					content: "应用需要登录才能使用，请先登录！",
+					success(result) {
+						if(!result.cancel)  {
+							_this.login()
+						}else {
+							uni.showToast({
+							    title: '没有登录，将无法使用小程序的功能！',
+							    duration: 2000,
+								icon: 'none'
+							})
+						}
+					},
+					fail() {
+					}
+				})
+			}
 			
 		},
 		onShow() {
@@ -154,12 +155,13 @@
 					orgId: _this.$store.state.orgId,
 					token: _this.$store.state.token
 				}).then(result=> {
-					//console.log(result)
-					result.forEach(row => {
-					  row.createDate = parseTime(row.createDate, '{m}-{d} {h}:{i}')
-					  row.modifyDate = formatTime(row.modifyDate)
-					})
-					_this.myOrderList = result
+					if(result) {
+						result.forEach(row => {
+						  row.createDate = parseTime(row.createDate, '{m}-{d} {h}:{i}')
+						  row.modifyDate = formatTime(row.modifyDate)
+						})
+						_this.myOrderList = result
+					}
 				}).catch(e=>console.log(e))
 			},
 			ad(item) {
@@ -179,9 +181,10 @@
 			},
 			//登录
 			login() {
-				uni.reLaunch({
-					url: '/pages/telecom/Authorization'
-				})
+				Authorization.wx.login()
+				// uni.reLaunch({
+				// 	url: '/pages/telecom/Authorization'
+				// })
 			},
 			
 			// towerSwiper

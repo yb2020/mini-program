@@ -1,12 +1,12 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-gradual-blue" :isBack="true">
-			<block slot="content">免费开卡</block>
+			<block slot="content">无忧开卡</block>
 		</cu-custom>
 		
 		<view class="cu-bar bg-white solid-bottom">
 			<view class="action">
-				<text class="cuIcon-title text-red"></text>开卡流程
+				<text class="cuIcon-title text-red"></text>流程
 			</view>
 		</view>
 		<view class="bg-white padding">
@@ -18,7 +18,7 @@
 		</view>
 		<view class="cu-form-group margin-top">
 			<view class="title">手机号码</view>
-			<input v-model="formData.mobile" type="number" maxlength="11" placeholder="用于接收激活码" name="input"></input>
+			<input v-model="formData.mobile" type="number" maxlength="11" placeholder="接收激活码" name="input"></input>
 			<view class="cu-capsule radius">
 				<view class='cu-tag bg-green'>
 					+86
@@ -31,7 +31,7 @@
 		
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
-				身份证正面
+				正面
 			</view>
 		</view>
 		<view class="cu-form-group">
@@ -50,7 +50,7 @@
 		
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
-				身份证反面
+				反面
 			</view>
 		</view>
 		<view class="cu-form-group">
@@ -69,7 +69,7 @@
 		
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
-				人像照
+				照片
 			</view>
 		</view>
 		<view class="cu-form-group">
@@ -100,13 +100,13 @@
 			return {
 				basicsList: [{
 					cuIcon: 'usefullfill',
-					name: '提交照片'
+					name: '提交'
 				}, {
 					cuIcon: 'radioboxfill',
-					name: '等待审核'
+					name: '审核'
 				}, {
 					cuIcon: 'radioboxfill',
-					name: '视频认证'
+					name: '认证'
 				}, {
 					cuIcon: 'roundcheckfill',
 					name: '完成'
@@ -138,7 +138,7 @@
 				
 				if(!_this.formData.idZUrl){
 					uni.showToast({
-						title: "您还没有拍摄身份证正面!",
+						title: "您还没有拍摄正面!",
 						duration: 2000,
 						icon: "none"
 					})
@@ -147,7 +147,7 @@
 
 				if(!_this.formData.idFUrl){
 					uni.showToast({
-						title: "您还没有拍摄身份证反面!",
+						title: "您还没有拍摄反面!",
 						duration: 2000,
 						icon: "none"
 					})
@@ -156,7 +156,7 @@
 				
 				if(!_this.formData.faceUrl){
 					uni.showToast({
-						title: "您还没有拍摄正面人像照!",
+						title: "您还没有拍摄照片!",
 						duration: 2000,
 						icon: "none"
 					})
