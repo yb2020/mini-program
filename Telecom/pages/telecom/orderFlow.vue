@@ -29,11 +29,11 @@
 			</view>
 		</view>
 		
-		<view class="cu-bar bg-white margin-top">
+		<!--view class="cu-bar bg-white margin-top">
 			<view class="action">
 				正面
 			</view>
-		</view>
+		</view-->
 		<view class="cu-form-group">
 			<view class="grid col-2 grid-square flex-sub">
 				<view class="bg-img" :data-url="formData.idZUrl" v-if="formData.idZUrl != ''">
@@ -48,11 +48,11 @@
 			</view>
 		</view>
 		
-		<view class="cu-bar bg-white margin-top">
+		<!--view class="cu-bar bg-white margin-top">
 			<view class="action">
 				反面
 			</view>
-		</view>
+		</view-->
 		<view class="cu-form-group">
 			<view class="grid col-2 grid-square flex-sub">
 				<view class="bg-img" :data-url="formData.idFUrl" v-if="formData.idFUrl != ''">
@@ -67,11 +67,11 @@
 			</view>
 		</view>
 		
-		<view class="cu-bar bg-white margin-top">
+		<!--view class="cu-bar bg-white margin-top">
 			<view class="action">
 				照片
 			</view>
-		</view>
+		</view-->
 		<view class="cu-form-group">
 			<view class="grid col-2 grid-square flex-sub">
 				<view class="bg-img" :data-url="formData.faceUrl" v-if="formData.faceUrl != ''">

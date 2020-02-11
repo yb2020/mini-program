@@ -14,6 +14,7 @@ const store = new Vuex.Store({
 		appName: '',
 		isAgent: false,
 		agent: '',
+		expiresAt: 0,
 		level: -1
     },
 	actions: {
@@ -40,16 +41,26 @@ const store = new Vuex.Store({
 			state.isAgent = user.isAgent
 			state.isLogin = true
 			state.level = user.level
+			state.expiresAt = user.expiresAt
 			
-			let storeUser = uni.getStorageSync("userInfo") 
-			if(storeUser === null) {
-				uni.setStorage({
-					key: "userInfo",
-					data: user
-				})
-			}
+			//let storeUser = uni.getStorageSync("userInfo") 
+			uni.setStorage({
+				key: "userInfo",
+				data: user
+			})
 			
         }, 
+		refreshUserInfo(state, user) {
+			state.token = user.token
+			state.avatarUrl = user.avatarUrl
+			state.username = user.username
+			state.nickName = user.nickName
+			state.agent = user.agent
+			state.isAgent = user.isAgent
+			state.isLogin = true
+			state.level = user.level
+			state.expiresAt = user.expiresAt
+		},
 		refreshToken(state, token) {
 			state.token = token
 			uni.getStorage({

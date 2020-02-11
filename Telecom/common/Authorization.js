@@ -20,7 +20,7 @@ export default {
 						//console.log(result)
 						//先登录微信，拿到openId后，给用户提示登录成功
 						let openId = result.openId
-						let unionid = result.unionid
+						let unionid = result.unionid //默认没有，如果有了，都是非法登录
 						if(!unionid && openId) {
 							uni.hideLoading();
 							uni.showLoading({
@@ -53,6 +53,7 @@ export default {
 											isAgent: result2.isAgent,
 											agent: result2.agent,
 											level: result2.level,
+											expiresAt: result2.expiresAt,
 											isLogin: true
 										})
 										uni.hideLoading()

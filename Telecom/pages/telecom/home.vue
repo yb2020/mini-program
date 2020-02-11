@@ -122,7 +122,14 @@
 			// 初始化towerSwiper 传已有的数组名即可
 			_this.TowerSwiper('swiperList');
 			
-			if(!_this.$store.state.isLogin) {
+			let user = uni.getStorageSync("userInfo")
+			
+			let nowTime = new Date().getTime()
+			
+			if(user && user.isLogin && nowTime < user.expiresAt) {
+				user = JSON.parse(JSON.stringify(user))
+				_this.$store.commit("refreshUserInfo", user)
+			}else {
 				uni.showModal({
 					title: "登录提示",
 					content: "应用需要登录才能使用，请先登录！",

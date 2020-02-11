@@ -1,34 +1,30 @@
 <script>
 	import Vue from 'vue'
-	import {mapMutations} from 'vuex';
+	import store from '@/store'
 	import ACLApi from '@/common/ACL'
 	import Authorization from "@/common/Authorization"
 	
 	export default {
 		methods: {
-			...mapMutations(['login','init'])
 		},
-		onLaunch: function(options) {
-			let user = uni.getStorageSync("userInfo") 
+		onLaunch: async options => {
+			var _this = this
+			let systemParams = uni.getStorageSync("systemParams")
 			let scene = options.query.scene
-			console.log(scene)
 			
-			if (scene && !user) {
-				ACLApi.qr.app.getByIdName(scene).then(result => {
-					var paramters = result.paramters ;
-					this.init({
-						orgId: ACLApi.qr.app.utils.get(paramters, "orgId") || "b00618ec07c140849bee17948b0e4be3",
-						appName: ACLApi.qr.app.utils.get(paramters, "appId") || "s_telecom",
-						agent: ACLApi.qr.app.utils.get(paramters, "agent") || ""
-					})
-					//Authorization.wx.login()
+			if(!systemParams && scene) {
+				var {paramters} = await ACLApi.qr.app.getByIdName(scene)
+				store.commit("init",{
+					orgId: ACLApi.qr.app.utils.get(paramters, "orgId") || "b00618ec07c140849bee17948b0e4be3",
+					appName: ACLApi.qr.app.utils.get(paramters, "appId") || "s_telecom",
+					agent: ACLApi.qr.app.utils.get(paramters, "agent") || ""
 				})
-			}else {
-				this.init({
-					orgId: "b00618ec07c140849bee17948b0e4be3",
-					appName: "s_telecom"
+			} else {
+				store.commit("init",{
+					orgId: ACLApi.qr.app.utils.get(systemParams, "orgId") || "b00618ec07c140849bee17948b0e4be3",
+					appName: ACLApi.qr.app.utils.get(systemParams, "appId") || "s_telecom",
+					agent: ACLApi.qr.app.utils.get(systemParams, "agent") || ""
 				})
-				//Authorization.wx.login()
 			}
 			
 			// if(!user) {

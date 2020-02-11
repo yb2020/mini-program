@@ -3,7 +3,7 @@ import store from '@/store'
 import Authorization from "@/common/Authorization"
 
 var baseUrl = 'https://api.telecom.fengyoukeji.cn'
-//var baseUrl = 'http://192.168.1.100:9999'
+//var baseUrl = 'http://192.168.1.103:9999'
 // #ifdef H5
 baseUrl = ''
 // #endif
@@ -25,10 +25,17 @@ serviceAPI.interceptor.request = (config => {
 })
 // 全局的业务拦截
 serviceAPI.interceptor.response = ((res, config) => {
-	if(res.code === 50008 || res.code === 50012 || res.code === 50014) {
+	if(res.code === 50008) {
 		//token失效，需要重新登录
+		store.state.isLogin = false
+		store.state.token = ''
+		Authorization.wx.login()
+		res.success = true
+		return res
+	}else if(res.code === 50012 || res.code === 50014) {
 		return Promise.reject(res.message || 'error')
-	}else if(res.status != 1){
+	}
+	else if(res.status != 1){
 		return Promise.reject(res.message || 'error')
 	}else {
 		res.success = true
