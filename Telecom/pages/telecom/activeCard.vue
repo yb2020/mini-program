@@ -171,6 +171,11 @@
 						validCode: _this.formData.validCode,
 						randomKey: _this.formData.randomKey
 					}).then(result => {
+						uni.navigateTo({
+							url: '/pages/telecom/result?success=' + result.message
+						})
+						return false ;
+						
 						uni.showToast({
 							title: result.message,
 							duration: 2000,

@@ -98,24 +98,31 @@
 				swiperList: [{
 					id: 0,
 					type: 'image',
-					url: 'https://mmbiz.qpic.cn/mmbiz_jpg/niblT1iaDrJFnHhkMnSnVqNC75bOH4P2Cr1P7bfAKu6cz1V7VpM76cichQUvYibmHDPh3UpkADnX6bQ3JljtOyibWLQ/0'
-				}, {
-					id: 1,
-					type: 'image',
-					url: 'https://mmbiz.qpic.cn/mmbiz_jpg/niblT1iaDrJFnHhkMnSnVqNC75bOH4P2CrhJjtfKFhfaQjmfJD341n5MiahZ0e1jRopOyqA4rBRwbtdZyu9Qjb9FQ/0',
-				}, {
-					id: 2,
-					type: 'image',
-					url: 'https://mmbiz.qpic.cn/mmbiz_jpg/niblT1iaDrJFnHhkMnSnVqNC75bOH4P2CrYLDWCym4ned8Sv2BGdNzG2yUBfZaBxnVo0nltgicgvaMCc9BXWSnXcQ/0'
-				}, {
-					id: 3,
-					type: 'image',
-					url: 'https://mmbiz.qpic.cn/mmbiz_jpg/niblT1iaDrJFnHhkMnSnVqNC75bOH4P2CrzQuY8qNgib9lmvpVg7hZS962SOlDH1wyWLYdJ6frWYIXrAJH9tUcK6g/0'
-				}],
+					url: 'https://mmbiz.qpic.cn/mmbiz_png/kaI5jJfvU3KOtibaayPeRevJTPmjhsYec8anxfWuMF0mKwUOKRaqfhv3JwjFic62kMMvFGe6ag7kvV3sRdZZVCEQ/0?wx_fmt=png'
+					//url: 'https://mmbiz.qpic.cn/mmbiz_png/kaI5jJfvU3KOtibaayPeRevJTPmjhsYec8anxfWuMF0mKwUOKRaqfhv3JwjFic62kMMvFGe6ag7kvV3sRdZZVCEQ/0?wx_fmt=png'
+				// }, {
+				// 	id: 1,
+				// 	type: 'image',
+				// 	url: 'https://mmbiz.qpic.cn/mmbiz_jpg/niblT1iaDrJFnHhkMnSnVqNC75bOH4P2CrhJjtfKFhfaQjmfJD341n5MiahZ0e1jRopOyqA4rBRwbtdZyu9Qjb9FQ/0',
+				// }, {
+				// 	id: 2,
+				// 	type: 'image',
+				// 	url: 'https://mmbiz.qpic.cn/mmbiz_jpg/niblT1iaDrJFnHhkMnSnVqNC75bOH4P2CrYLDWCym4ned8Sv2BGdNzG2yUBfZaBxnVo0nltgicgvaMCc9BXWSnXcQ/0'
+				// }, {
+				// 	id: 3,
+				// 	type: 'image',
+				// 	url: 'https://mmbiz.qpic.cn/mmbiz_jpg/niblT1iaDrJFnHhkMnSnVqNC75bOH4P2CrzQuY8qNgib9lmvpVg7hZS962SOlDH1wyWLYdJ6frWYIXrAJH9tUcK6g/0'
+				// },
+				// {
+				// 	id: 1,
+				// 	type: 'image',
+				// 	url: 'https://mmbiz.qpic.cn/mmbiz_png/kaI5jJfvU3KOtibaayPeRevJTPmjhsYechKltTibmOzpRNQ89oZTptWtqCl03VDGSVmMibib6HQYUxUxPrNNPeySRw/0?wx_fmt=png'
+				}
+				],
 				myOrderList: []
 			}
 		},
-		onLoad() {
+		onReady() {
 			let _this = this
 			//_this.$store.commit("logout")
 			
@@ -126,9 +133,11 @@
 			
 			let nowTime = new Date().getTime()
 			
+			
 			if(user && user.isLogin && nowTime < user.expiresAt) {
 				user = JSON.parse(JSON.stringify(user))
 				_this.$store.commit("refreshUserInfo", user)
+				_this.getMyOrderList()
 			}else {
 				uni.showModal({
 					title: "登录提示",
@@ -151,6 +160,7 @@
 			
 		},
 		onShow() {
+			
 			if(this.$store.state.isLogin) {
 				this.getMyOrderList()
 			}
@@ -172,8 +182,31 @@
 				}).catch(e=>console.log(e))
 			},
 			ad(item) {
-				uni.showModal({
-					title: "" + item.id
+				// uni.navigateTo({
+				// 	url: '/pages/telecom/result?success=恭喜，激活成功！'
+				// })
+				// return false ;
+				uni.downloadFile({
+					url: item.url,//图片地址
+					success: (res) =>{
+						if (res.statusCode === 200){
+							uni.saveImageToPhotosAlbum({
+								filePath: res.tempFilePath,
+								success: function() {
+									uni.showToast({
+										title: "保存成功,请扫描二维码关注",
+										icon: "none"
+									});
+								},
+								fail: function() {
+									uni.showToast({
+										title: "保存失败",
+										icon: "none"
+									});
+								}
+							});
+						} 
+					}
 				})
 			},
 			activeCard(order) {

@@ -88,7 +88,7 @@
 				agent: ""
 			};
 		},
-		onLoad() {
+		onReady() {
 			let _this = this
 			if(!_this.avatorUrl) {
 				_this.avatorUrl = 'background-image:url("' + this.$store.state.avatarUrl + '");'

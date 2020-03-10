@@ -4,7 +4,7 @@
 			<block slot="content">无忧开卡</block>
 		</cu-custom>
 		
-		<view class="cu-bar bg-white solid-bottom">
+		<!--view class="cu-bar bg-white solid-bottom">
 			<view class="action">
 				<text class="cuIcon-title text-red"></text>流程
 			</view>
@@ -15,7 +15,7 @@
 					<text :class="'cuIcon-' + item.cuIcon"></text> {{item.name}}
 				</view>
 			</view>
-		</view>
+		</view-->
 		<view class="cu-form-group margin-top">
 			<view class="title">手机号码</view>
 			<input v-model="formData.mobile" type="number" maxlength="11" placeholder="接收激活码" name="input"></input>
@@ -29,11 +29,11 @@
 			</view>
 		</view>
 		
-		<!--view class="cu-bar bg-white margin-top">
-			<view class="action">
+		<view class="cu-bar bg-white margin-top">
+			<!--view class="action">
 				正面
-			</view>
-		</view-->
+			</view-->
+		</view>
 		<view class="cu-form-group">
 			<view class="grid col-2 grid-square flex-sub">
 				<view class="bg-img" :data-url="formData.idZUrl" v-if="formData.idZUrl != ''">
@@ -48,11 +48,11 @@
 			</view>
 		</view>
 		
-		<!--view class="cu-bar bg-white margin-top">
-			<view class="action">
+		<view class="cu-bar bg-white margin-top">
+			<!--view class="action">
 				反面
-			</view>
-		</view-->
+			</view-->
+		</view>
 		<view class="cu-form-group">
 			<view class="grid col-2 grid-square flex-sub">
 				<view class="bg-img" :data-url="formData.idFUrl" v-if="formData.idFUrl != ''">
@@ -67,11 +67,11 @@
 			</view>
 		</view>
 		
-		<!--view class="cu-bar bg-white margin-top">
-			<view class="action">
+		<view class="cu-bar bg-white margin-top">
+			<!--view class="action">
 				照片
-			</view>
-		</view-->
+			</view-->
+		</view>
 		<view class="cu-form-group">
 			<view class="grid col-2 grid-square flex-sub">
 				<view class="bg-img" :data-url="formData.faceUrl" v-if="formData.faceUrl != ''">
