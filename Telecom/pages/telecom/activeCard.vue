@@ -67,7 +67,7 @@
 		</view>
 		
 		<view class="padding flex flex-direction">
-			<button @tap="active" class="cu-btn bg-blue margin-tb-sm lg">提交激活</button>
+			<button @tap="active" :disabled="isDisabled" class="cu-btn bg-blue margin-tb-sm lg">提交激活</button>
 		</view>
 	</view>
 </template>
@@ -92,6 +92,7 @@
 					name: '完成'
 				}, ],
 				basics: 3,
+				isDisabled: false,
 				formData: {
 					orderNumber: '',
 					validCode: '',
@@ -106,6 +107,9 @@
 			let _this = this
 			_this.formData.orderNumber = options.orderNumber
 			_this.getCode(true)
+			_this.DelVideo()
+			
+			_this.isDisabled = false
 		},
 		methods: {
 			getCode(bool) {
@@ -165,12 +169,14 @@
 					uni.showLoading({
 						title: "提交中..."
 					})
+					_this.isDisabled = true
 					telecomApi.person.active({
 						filePath: _this.formData.videoUrl,
 						orderNumber: _this.formData.orderNumber,
 						validCode: _this.formData.validCode,
 						randomKey: _this.formData.randomKey
 					}).then(result => {
+						_this.isDisabled = false
 						uni.navigateTo({
 							url: '/pages/telecom/result?success=' + result.message
 						})
@@ -190,6 +196,7 @@
 					}).catch(e => {
 						_this.DelVideo()
 						_this.getCode(true)
+						_this.isDisabled = false
 						console.error(e)
 					})
 				}

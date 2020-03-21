@@ -3,7 +3,7 @@
 		<cu-custom bgColor="bg-gradual-blue" :isBack="true">
 			<block slot="content">无忧开卡</block>
 		</cu-custom>
-		
+
 		<!--view class="cu-bar bg-white solid-bottom">
 			<view class="action">
 				<text class="cuIcon-title text-red"></text>流程
@@ -28,7 +28,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="cu-bar bg-white margin-top">
 			<!--view class="action">
 				正面
@@ -47,7 +47,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="cu-bar bg-white margin-top">
 			<!--view class="action">
 				反面
@@ -66,7 +66,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="cu-bar bg-white margin-top">
 			<!--view class="action">
 				照片
@@ -85,7 +85,7 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="padding flex flex-direction">
 			<button @tap="order" :disabled="isDisabled" class="cu-btn bg-blue margin-tb-sm lg">提交审核</button>
 		</view>
@@ -138,11 +138,12 @@
 					faceUrl: '',
 					faceData: ''
 				}
+				this.isDisabled = false
 			},
 			validate() {
 				let _this = this
-				
-				if(!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(_this.formData.mobile))){ 
+
+				if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(_this.formData.mobile))) {
 					uni.showToast({
 						title: "手机号码有误，请重填!",
 						duration: 2000,
@@ -150,8 +151,8 @@
 					})
 					return false
 				}
-				
-				if(!_this.formData.idZUrl){
+
+				if (!_this.formData.idZUrl) {
 					uni.showToast({
 						title: "您还没有拍摄正面!",
 						duration: 2000,
@@ -160,7 +161,7 @@
 					return false
 				}
 
-				if(!_this.formData.idFUrl){
+				if (!_this.formData.idFUrl) {
 					uni.showToast({
 						title: "您还没有拍摄反面!",
 						duration: 2000,
@@ -168,8 +169,8 @@
 					})
 					return false
 				}
-				
-				if(!_this.formData.faceUrl){
+
+				if (!_this.formData.faceUrl) {
 					uni.showToast({
 						title: "您还没有拍摄照片!",
 						duration: 2000,
@@ -177,27 +178,27 @@
 					})
 					return false
 				}
-				
-				
+
+
 				return true
 			},
 			order() {
-				
+
 				let _this = this
-				if(!_this.$store.state.isLogin) {
+				if (!_this.$store.state.isLogin) {
 					uni.showToast({
 						title: '没有登录，无法使用小程序的功能！',
 						duration: 2000,
 						icon: 'none'
 					})
-					return false 
+					return false
 				}
-				
-				if(_this.validate()) {
+
+				if (_this.validate()) {
 					uni.showLoading({
 						title: "提交中..."
 					})
-					this.isDisabled = true
+					_this.isDisabled = true
 					telecomApi.person.order({
 						token: _this.$store.state.token,
 						mobile: _this.formData.mobile,
@@ -207,6 +208,7 @@
 						orgId: _this.$store.state.orgId,
 						appId: _this.$store.state.appName
 					}).then(result => {
+						uni.hideLoading()
 						uni.showToast({
 							title: result.message,
 							duration: 3000,
@@ -214,29 +216,33 @@
 								uni.navigateBack({
 									animationDuration: 1000,
 									success() {
-										this.isDisabled = false
+										_this.initData()
 									},
 									fail(e) {
-										this.isDisabled = false
+										_this.initData()
 									}
 								})
 							}
 						})
 					}).catch(e => {
-						console.error(e)
-						this.isDisabled = false
+						uni.hideLoading()
+						uni.showToast({
+							title: result.message,
+							icon: 'none'
+						})
+						_this.initData()
 					})
 				}
 			},
 			getImageData(filepath, index) {
 				let _this = this
-				
+
 				uni.getFileSystemManager().readFile({
 					filePath: filepath, //选择图片返回的相对路径
 					encoding: 'base64',
-                    success: ress => {
-                        let base64 = 'data:image/'+ filepath.substring(filepath.lastIndexOf(".")+1)+';base64,'  + ress.data
-						switch(index) {
+					success: ress => {
+						let base64 = 'data:image/' + filepath.substring(filepath.lastIndexOf(".") + 1) + ';base64,' + ress.data
+						switch (index) {
 							case 1:
 								_this.formData.idZData = base64
 								_this.formData.idZUrl = filepath
@@ -269,7 +275,7 @@
 			},
 			DelImg(index) {
 				let _this = this
-				switch(index) {
+				switch (index) {
 					case 1:
 						_this.formData.idZUrl = ""
 						_this.formData.idZData = ""
