@@ -160,7 +160,6 @@
 			
 		},
 		onShow() {
-			
 			if(this.$store.state.isLogin) {
 				this.getMyOrderList()
 			}

@@ -34,6 +34,11 @@
 			// 	console.log(this.$store.state.orgId)
 			// }, 100)
 		},
+		onShow() {
+			if("index" == this.PageCur && this.$store.state.isLogin) {
+				setTimeout(()=>this.$refs.indexPage.getMyOrderList(), 100)
+			}
+		},
 		methods: {
 			NavChange: function(e) {
 				this.changeNav(e.currentTarget.dataset.cur)

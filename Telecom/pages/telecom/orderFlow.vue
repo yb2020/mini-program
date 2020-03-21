@@ -87,7 +87,7 @@
 		</view>
 		
 		<view class="padding flex flex-direction">
-			<button @tap="order" class="cu-btn bg-blue margin-tb-sm lg">提交审核</button>
+			<button @tap="order" :disabled="isDisabled" class="cu-btn bg-blue margin-tb-sm lg">提交审核</button>
 		</view>
 	</view>
 </template>
@@ -112,6 +112,7 @@
 					name: '完成'
 				}, ],
 				basics: 1,
+				isDisabled: false,
 				formData: {
 					mobile: '',
 					idZUrl: '',
@@ -123,7 +124,21 @@
 				}
 			}
 		},
+		onLoad() {
+			this.initData()
+		},
 		methods: {
+			initData() {
+				this.formData = {
+					mobile: '',
+					idZUrl: '',
+					idZData: '',
+					idFUrl: '',
+					idFData: '',
+					faceUrl: '',
+					faceData: ''
+				}
+			},
 			validate() {
 				let _this = this
 				
@@ -167,6 +182,7 @@
 				return true
 			},
 			order() {
+				
 				let _this = this
 				if(!_this.$store.state.isLogin) {
 					uni.showToast({
@@ -181,6 +197,7 @@
 					uni.showLoading({
 						title: "提交中..."
 					})
+					this.isDisabled = true
 					telecomApi.person.order({
 						token: _this.$store.state.token,
 						mobile: _this.formData.mobile,
@@ -195,12 +212,19 @@
 							duration: 3000,
 							complete() {
 								uni.navigateBack({
-									animationDuration: 1000
+									animationDuration: 1000,
+									success() {
+										this.isDisabled = false
+									},
+									fail(e) {
+										this.isDisabled = false
+									}
 								})
 							}
 						})
 					}).catch(e => {
 						console.error(e)
+						this.isDisabled = false
 					})
 				}
 			},
