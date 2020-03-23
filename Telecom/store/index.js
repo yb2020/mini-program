@@ -32,6 +32,11 @@ const store = new Vuex.Store({
 				data: initParams
 			})
 		},
+		setInit(state, initParams) {
+			state.orgId = initParams.orgId
+			state.appName = initParams.appName
+			state.agent = initParams.agent
+		},
         login(state, user) {
 			state.token = user.token
 			state.avatarUrl = user.avatarUrl

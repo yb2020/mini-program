@@ -12,20 +12,23 @@
 			let systemParams = uni.getStorageSync("systemParams")
 			let scene = options.query.scene
 			
-			if(!systemParams && scene) {
+			if(scene) { //只要有scene,优先重新获取
 				var {paramters} = await ACLApi.qr.app.getByIdName(scene)
 				store.commit("init",{
 					orgId: ACLApi.qr.app.utils.get(paramters, "orgId") || "b00618ec07c140849bee17948b0e4be3",
 					appName: ACLApi.qr.app.utils.get(paramters, "appId") || "s_telecom",
 					agent: ACLApi.qr.app.utils.get(paramters, "agent") || ""
 				})
-			} else {
+			}else if(systemParams) {
+				store.commit("setInit", systemParams)
+			}else { //两个都为空，搜索进的小程序？
 				store.commit("init",{
-					orgId: ACLApi.qr.app.utils.get(systemParams, "orgId") || "b00618ec07c140849bee17948b0e4be3",
-					appName: ACLApi.qr.app.utils.get(systemParams, "appId") || "s_telecom",
-					agent: ACLApi.qr.app.utils.get(systemParams, "agent") || ""
+					orgId: "b00618ec07c140849bee17948b0e4be3",
+					appName: "s_telecom",
+					agent: ""
 				})
 			}
+			
 			
 			// if(!user) {
 			// 	this.init({
