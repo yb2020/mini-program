@@ -55,6 +55,9 @@
             "postcss" : false,
             "minified" : true
         },
+		"navigateToMiniProgramAppIdList": [
+			"wx12797fe03630fc21" //省钱宝小程序
+		],
         "permission" : {}
     },
     "h5" : {

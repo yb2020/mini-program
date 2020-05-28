@@ -91,6 +91,7 @@
 	import telecomApi from "./api/telecom"
 	import { formatTime, parseTime } from '@/utils'
 	import Authorization from "@/common/Authorization"
+	import ACLApi from '@/common/ACL'
 
 	export default {
 		data() {
@@ -127,7 +128,38 @@
 			//_this.$store.commit("logout")
 			
 			// 初始化towerSwiper 传已有的数组名即可
-			_this.TowerSwiper('swiperList');
+			ACLApi.dic.common.getListByParentId("telecomAD").then(result => {
+				let tmpList = result
+				if(tmpList && tmpList.length > 0) {
+					this.swiperList = []
+					tmpList.forEach(row => {
+						var type = ACLApi.dic.utils.get(row, "type") ;
+						if(type === "image") {
+							this.swiperList.push({
+								type: "image",
+								targetType: type,
+								id: row.idName,
+								url: ACLApi.dic.utils.get(row, "url"),
+								event: ACLApi.dic.utils.get(row, "event")
+							})
+						}else if(type === "mini-program") {
+							this.swiperList.push({
+								type: "image",
+								targetType: type,
+								id: row.idName,
+								url: ACLApi.dic.utils.get(row, "url"),
+								wxAppId: ACLApi.dic.utils.get(row, "wxAppId"),
+								inviteCode: ACLApi.dic.utils.get(row, "inviteCode"),
+								event: ACLApi.dic.utils.get(row, "event")
+							})
+						}
+					})
+					_this.TowerSwiper('swiperList');
+				}
+				
+			}).catch(e => {
+				_this.TowerSwiper('swiperList');
+			})
 			
 			let user = uni.getStorageSync("userInfo")
 			
@@ -185,28 +217,46 @@
 				// 	url: '/pages/telecom/result?success=恭喜，激活成功！'
 				// })
 				// return false ;
-				uni.downloadFile({
-					url: item.url,//图片地址
-					success: (res) =>{
-						if (res.statusCode === 200){
-							uni.saveImageToPhotosAlbum({
-								filePath: res.tempFilePath,
-								success: function() {
-									uni.showToast({
-										title: "保存成功,请扫描二维码关注",
-										icon: "none"
+				switch(item.targetType) {
+					case 'image':
+						uni.downloadFile({
+							url: item.url,//图片地址
+							success: (res) =>{
+								if (res.statusCode === 200){
+									uni.saveImageToPhotosAlbum({
+										filePath: res.tempFilePath,
+										success: function() {
+											uni.showToast({
+												title: "保存成功,请扫描二维码关注",
+												icon: "none"
+											});
+										},
+										fail: function() {
+											uni.showToast({
+												title: "保存失败",
+												icon: "none"
+											});
+										}
 									});
-								},
-								fail: function() {
-									uni.showToast({
-										title: "保存失败",
-										icon: "none"
-									});
-								}
-							});
-						} 
-					}
-				})
+								} 
+							}
+						})
+					break
+					case 'mini-program':
+						uni.navigateToMiniProgram({
+							appId: item.wxAppId,
+							path: `/pages/index/main?inviteCode=${item.inviteCode}` ,
+							extraData: {
+							},
+							success(res) {
+								console.log(res)
+							},
+							fail(e) {
+								console.log(e)
+							}
+						})
+					break
+				}
 			},
 			activeCard(order) {
 				if("waitSign"  === order.status) {

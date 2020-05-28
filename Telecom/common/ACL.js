@@ -3,6 +3,31 @@ import serviceAPI from '@/common/serviceAPI'
 const serviceId = '/MICROSERVICE-ACL'
 
 export default {
+	dic: {
+		common: {
+			getListByParentId(parentIdName) {
+			  return serviceAPI.request({
+				url: serviceId + '/dic/common/getListByParentIdName?parentIdName=' + parentIdName,
+				method: 'get',
+				data: null
+			  })
+			},
+		},
+		utils: {
+			get(obj, key) {
+				if(obj) {
+					let paramters = obj.properties
+					
+					for(var i in paramters) {
+						if(paramters[i].name === key) {
+							return paramters[i].value
+						}
+					}
+				}
+				return null
+			}
+		}
+	},
 	qr:{
 		app: {
 			getByIdName(idName) {
