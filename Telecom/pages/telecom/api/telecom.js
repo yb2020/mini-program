@@ -22,6 +22,15 @@ export default {
 				data: params
 			})
 		},
+		getActiveRandomAction(params) { //获取随机动作
+			return serviceAPI.request({
+				url: serviceId + '/person/telecomOrder/getActiveRandomAction',
+				contentType: 'form',
+				business: null,
+				method: 'POST',
+				data: params
+			})
+		},
 		getActiveCode(params) {//获取验证码
 			return serviceAPI.request({
 				url: serviceId + '/person/telecomOrder/getActiveCode',

@@ -11,11 +11,10 @@ export default {
 	        data: null
 	      })
 	    },
-		getByToken(token) {
+		getByToken() {
 		  return serviceAPI.request({
 			url: serviceId + '/user/getByToken',
-			method: 'get',
-			data: { token }
+			method: 'post'
 		  })
 		}
 	},

@@ -14,6 +14,10 @@
 		    "style" : {}
 		},
 		{
+		    "path" : "pages/telecom/active",
+		    "style" : {}
+		},
+		{
 		    "path" : "pages/telecom/activeCard",
 		    "style" : {}
 		},

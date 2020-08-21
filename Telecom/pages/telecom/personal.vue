@@ -47,12 +47,6 @@
 						<text class="text-grey">我的订单</text>
 					</view>
 				</view>
-				<view class="cu-item" :class="menuArrow?'arrow':''">
-					<view class="content">
-						<text class="cuIcon-circlefill text-grey"></text>
-						<text class="text-grey">我的账户</text>
-					</view>
-				</view>
 			</view>
 
 		</scroll-view>

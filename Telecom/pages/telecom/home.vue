@@ -261,7 +261,8 @@
 			activeCard(order) {
 				if("waitSign"  === order.status) {
 					uni.navigateTo({
-						url: 'activeCard?orderNumber=' + order.orderNumber,
+						// url: 'activeCard?orderNumber=' + order.orderNumber, 2020-08-21修改为随机动作
+						url: 'active?orderNumber=' + order.orderNumber,
 						success: res => {},
 						fail: () => {},
 						complete: () => {}
