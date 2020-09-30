@@ -1,6 +1,6 @@
 import serviceAPI from '@/common/serviceAPI'
 
-const serviceId = '/MICROSERVICE-APP-TELECOM'
+const serviceId = '/microService-app-telecom'
 
 export default {
 	location: {

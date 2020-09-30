@@ -271,10 +271,10 @@
 			},
 			//登录
 			login() {
-				Authorization.wx.login()
-				// uni.reLaunch({
-				// 	url: '/pages/telecom/Authorization'
-				// })
+				// Authorization.wx.login()
+				uni.reLaunch({
+					url: '/pages/telecom/Authorization'
+				})
 			},
 			
 			// towerSwiper

@@ -1,6 +1,6 @@
 import serviceAPI from '@/common/serviceAPI'
 
-const serviceId = '/MICROSERVICE-ACL'
+const serviceId = '/microService-acl'
 
 export default {
 	dic: {

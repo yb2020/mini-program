@@ -3,7 +3,7 @@ import store from '@/store'
 import Authorization from "@/common/Authorization"
 
 var baseUrl = 'https://api.telecom.fengyoukeji.cn'
-// var baseUrl = 'http://192.168.0.126:9999'
+// var baseUrl = 'http://192.168.0.128:9999'
 // #ifdef H5
 // baseUrl = ''
 // #endif
