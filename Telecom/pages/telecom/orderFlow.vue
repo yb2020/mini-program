@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-gradual-blue" :isBack="true">
-			<block slot="content">无忧开卡</block>
+			<block slot="content">办公软件</block>
 		</cu-custom>
 
 		<!--view class="cu-bar bg-white solid-bottom">
@@ -227,16 +227,38 @@
 					}).catch(e => {
 						uni.hideLoading()
 						uni.showToast({
-							title: result.message,
+							title: e.message,
 							icon: 'none'
 						})
+						_this.isDisabled = false
 						_this.initData()
 					})
 				}
 			},
 			getImageData(filepath, index) {
 				let _this = this
-
+				
+				//支持H5的写法
+				// const arrayBuffer = new Uint8Array(filepath); //先将本地图片路径转换成array类型 
+				// const base64Img = uni.arrayBufferToBase64(arrayBuffer);  //再转换成base64类型
+				// let base64 = 'data:image/' + filepath.substring(filepath.lastIndexOf(".") + 1) + ';base64,' + base64Img
+				// switch (index) {
+				// 	case 1:
+				// 		_this.formData.idZData = base64
+				// 		_this.formData.idZUrl = filepath
+				// 		break;
+				// 	case 2:
+				// 		_this.formData.idFData = base64
+				// 		_this.formData.idFUrl = filepath
+				// 		break;
+				// 	case 3:
+				// 		_this.formData.faceData = base64
+				// 		_this.formData.faceUrl = filepath
+				// 		break;
+				// 	default:
+				// 		break;
+				// }
+				// 支持小程序的写法
 				uni.getFileSystemManager().readFile({
 					filePath: filepath, //选择图片返回的相对路径
 					encoding: 'base64',

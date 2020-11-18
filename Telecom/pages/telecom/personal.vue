@@ -57,6 +57,9 @@
 	export default {
 		data() {
 			return {
+				menuBorder: true,
+				modalName: null,
+				menuCard: '',
 				cuIconList: [{
 					id: 'share',
 					cuIcon: 'share',

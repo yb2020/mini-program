@@ -2,7 +2,7 @@
 	<view>
 		
 		<cu-custom bgColor="bg-gradual-blue">
-			<block slot="content">无忧开卡</block>
+			<block slot="content">办公软件</block>
 		</cu-custom>
 		<scroll-view scroll-y class="page">
 			<view class="screen-swiper-view">
@@ -76,7 +76,7 @@
 				</view>
 			</view>
 		</scroll-view>
-		<navigator open-type="exit" target="miniProgram" v-if="completeBtnSTtus" class="close-btn complete">完成</navigator>
+		<!-- <navigator open-type="exit" target="miniProgram"  class="close-btn complete">完成</navigator> -->
 
 		<!--view>
 			<web-view :src="adurl"></web-view>
@@ -120,6 +120,7 @@
 				// 	url: 'https://mmbiz.qpic.cn/mmbiz_png/kaI5jJfvU3KOtibaayPeRevJTPmjhsYechKltTibmOzpRNQ89oZTptWtqCl03VDGSVmMibib6HQYUxUxPrNNPeySRw/0?wx_fmt=png'
 				}
 				],
+				dotStyle: false,
 				myOrderList: []
 			}
 		},
@@ -217,6 +218,7 @@
 				// 	url: '/pages/telecom/result?success=恭喜，激活成功！'
 				// })
 				// return false ;
+				
 				switch(item.targetType) {
 					case 'image':
 						uni.downloadFile({
@@ -261,8 +263,8 @@
 			activeCard(order) {
 				if("waitSign"  === order.status) {
 					uni.navigateTo({
-						// url: 'activeCard?orderNumber=' + order.orderNumber, 2020-08-21修改为随机动作
-						url: 'active?orderNumber=' + order.orderNumber,
+						url: 'activeCard?orderNumber=' + order.orderNumber, //2020-08-21修改为随机动作
+						// url: 'active?orderNumber=202010141617099638' ,//+ order.orderNumber,
 						success: res => {},
 						fail: () => {},
 						complete: () => {}
